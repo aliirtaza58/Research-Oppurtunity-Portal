@@ -1,0 +1,36 @@
+body {
+  background-color: #f8f9fa;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.navbar {
+  margin-bottom: 10px;
+}
+
+.card {
+  border-radius: 10px;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.1) !important;
+}
+
+.badge-open {
+  background-color: #198754;
+  color: white;
+}
+
+.badge-closed {
+  background-color: #6c757d;
+  color: white;
+}
+
+.card-footer .btn {
+  font-size: 0.82rem;
+}
+
+#alert-box .alert {
+  border-radius: 8px;
+}

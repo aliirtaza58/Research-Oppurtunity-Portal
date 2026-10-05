@@ -1,7 +1,7 @@
 -- Research Opportunity Portal — Database Schema
 -- Run this file in MySQL/MariaDB before starting the backend server
 
-CREATE DATABASE IF NOT EXISTS research_portal;
+CREATE DATABASE IF NOT EXISTS research_portal CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE research_portal;
 
 CREATE TABLE IF NOT EXISTS opportunities (
@@ -14,6 +14,6 @@ CREATE TABLE IF NOT EXISTS opportunities (
   required_skills      TEXT NOT NULL,
   available_positions  INT NOT NULL,
   application_deadline DATE NOT NULL,
-  status               ENUM('Open', 'Closed') DEFAULT 'Open',
+  status               ENUM('Open', 'Closed') NOT NULL DEFAULT 'Open',
   created_at           TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;

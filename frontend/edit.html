@@ -17,58 +17,58 @@
   <div class="container mt-4" style="max-width: 700px;">
     <a id="back-btn" href="index.html" class="btn btn-outline-secondary btn-sm mb-3">← Back</a>
     <h4 class="mb-3">Edit Research Opportunity</h4>
-    <div id="alert-box"></div>
+    <div id="alert-box" aria-live="polite"></div>
     <div id="loading" class="text-center my-5">
       <div class="spinner-border text-primary" role="status"></div>
     </div>
     <form id="edit-form" class="d-none" novalidate>
       <div class="mb-3">
-        <label class="form-label">Research Title <span class="text-danger">*</span></label>
-        <input type="text" id="title" class="form-control" required/>
+        <label for="title" class="form-label">Research Title <span class="text-danger">*</span></label>
+        <input type="text" id="title" class="form-control" maxlength="255" required/>
         <div class="invalid-feedback">Title is required.</div>
       </div>
       <div class="mb-3">
-        <label class="form-label">Description <span class="text-danger">*</span></label>
+        <label for="description" class="form-label">Description <span class="text-danger">*</span></label>
         <textarea id="description" class="form-control" rows="3" required></textarea>
         <div class="invalid-feedback">Description is required.</div>
       </div>
       <div class="row">
         <div class="col-md-6 mb-3">
-          <label class="form-label">Research Area <span class="text-danger">*</span></label>
-          <input type="text" id="research_area" class="form-control" required/>
+          <label for="research_area" class="form-label">Research Area <span class="text-danger">*</span></label>
+          <input type="text" id="research_area" class="form-control" maxlength="100" required/>
           <div class="invalid-feedback">Research area is required.</div>
         </div>
         <div class="col-md-6 mb-3">
-          <label class="form-label">Faculty Name <span class="text-danger">*</span></label>
-          <input type="text" id="faculty_name" class="form-control" required/>
+          <label for="faculty_name" class="form-label">Faculty Name <span class="text-danger">*</span></label>
+          <input type="text" id="faculty_name" class="form-control" maxlength="100" required/>
           <div class="invalid-feedback">Faculty name is required.</div>
         </div>
       </div>
       <div class="row">
         <div class="col-md-6 mb-3">
-          <label class="form-label">Department <span class="text-danger">*</span></label>
-          <input type="text" id="department" class="form-control" required/>
+          <label for="department" class="form-label">Department <span class="text-danger">*</span></label>
+          <input type="text" id="department" class="form-control" maxlength="100" required/>
           <div class="invalid-feedback">Department is required.</div>
         </div>
         <div class="col-md-6 mb-3">
-          <label class="form-label">Available Positions <span class="text-danger">*</span></label>
-          <input type="number" id="available_positions" class="form-control" min="1" required/>
-          <div class="invalid-feedback">Must be a positive number.</div>
+          <label for="available_positions" class="form-label">Available Positions <span class="text-danger">*</span></label>
+          <input type="number" id="available_positions" class="form-control" min="1" max="2147483647" step="1" required/>
+          <div class="invalid-feedback">Must be a positive whole number.</div>
         </div>
       </div>
       <div class="mb-3">
-        <label class="form-label">Required Skills <span class="text-danger">*</span></label>
+        <label for="required_skills" class="form-label">Required Skills <span class="text-danger">*</span></label>
         <input type="text" id="required_skills" class="form-control" required/>
         <div class="invalid-feedback">Required skills are required.</div>
       </div>
       <div class="row">
         <div class="col-md-6 mb-3">
-          <label class="form-label">Application Deadline <span class="text-danger">*</span></label>
+          <label for="application_deadline" class="form-label">Application Deadline <span class="text-danger">*</span></label>
           <input type="date" id="application_deadline" class="form-control" required/>
           <div class="invalid-feedback">Deadline is required.</div>
         </div>
         <div class="col-md-6 mb-3">
-          <label class="form-label">Status</label>
+          <label for="status" class="form-label">Status</label>
           <select id="status" class="form-select">
             <option value="Open">Open</option>
             <option value="Closed">Closed</option>
@@ -79,6 +79,7 @@
     </form>
   </div>
 
+  <script src="js/common.js"></script>
   <script src="js/edit.js"></script>
 </body>
 </html>

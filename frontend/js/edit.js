@@ -1,102 +1,43 @@
-const API_BASE = 'http://localhost:5000/api/opportunities';
-const params = new URLSearchParams(window.location.search);
-const id = params.get('id');
+const id = new URLSearchParams(window.location.search).get('id');
 
 async function loadOpportunity() {
   const loading = document.getElementById('loading');
   const form = document.getElementById('edit-form');
-
-  if (!id) {
-    showAlert('danger', 'No opportunity ID provided.');
-    loading.classList.add('d-none');
-    return;
-  }
-
-  document.getElementById('back-btn').href = `detail.html?id=${id}`;
-
   try {
-    const res = await fetch(`${API_BASE}/${id}`);
-    const json = await res.json();
-    loading.classList.add('d-none');
-
-    if (!json.success) {
-      showAlert('danger', json.message || 'Opportunity not found.');
-      return;
+    if (!id) throw new Error('No opportunity ID provided.');
+    const { data: op } = await apiRequest(`${API_BASE}/${encodeURIComponent(id)}`);
+    document.getElementById('back-btn').href = `detail.html?id=${op.id}`;
+    for (const field of ['title', 'description', 'research_area', 'faculty_name', 'department', 'required_skills', 'available_positions', 'status']) {
+      document.getElementById(field).value = op[field];
     }
-
-    const op = json.data;
-    document.getElementById('title').value = op.title;
-    document.getElementById('description').value = op.description;
-    document.getElementById('research_area').value = op.research_area;
-    document.getElementById('faculty_name').value = op.faculty_name;
-    document.getElementById('department').value = op.department;
-    document.getElementById('required_skills').value = op.required_skills;
-    document.getElementById('available_positions').value = op.available_positions;
-    // Format date for input[type=date]
-    document.getElementById('application_deadline').value = op.application_deadline
-      ? op.application_deadline.split('T')[0]
-      : '';
-    document.getElementById('status').value = op.status;
-
+    document.getElementById('application_deadline').value = op.application_deadline.slice(0, 10);
     form.classList.remove('d-none');
-  } catch (err) {
+  } catch (error) {
+    showAlert('danger', `Could not load opportunity. ${error.message}`);
+  } finally {
     loading.classList.add('d-none');
-    showAlert('danger', 'Could not connect to the server.');
   }
 }
 
-document.getElementById('edit-form').addEventListener('submit', async (e) => {
-  e.preventDefault();
-  const form = e.target;
-
-  if (!form.checkValidity()) {
-    form.classList.add('was-validated');
-    return;
-  }
-
-  const positions = parseInt(document.getElementById('available_positions').value);
-  if (isNaN(positions) || positions < 1) {
-    showAlert('danger', 'Available positions must be a positive number.');
-    return;
-  }
-
-  const payload = {
-    title: document.getElementById('title').value.trim(),
-    description: document.getElementById('description').value.trim(),
-    research_area: document.getElementById('research_area').value.trim(),
-    faculty_name: document.getElementById('faculty_name').value.trim(),
-    department: document.getElementById('department').value.trim(),
-    required_skills: document.getElementById('required_skills').value.trim(),
-    available_positions: positions,
-    application_deadline: document.getElementById('application_deadline').value,
-    status: document.getElementById('status').value
-  };
-
+document.getElementById('edit-form').addEventListener('submit', async event => {
+  event.preventDefault();
+  const form = event.target;
+  const payload = readForm(form);
+  if (!payload) return;
+  const button = form.querySelector('button[type="submit"]');
+  button.disabled = true;
   try {
-    const res = await fetch(`${API_BASE}/${id}`, {
+    await apiRequest(`${API_BASE}/${encodeURIComponent(id)}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
     });
-    const json = await res.json();
-
-    if (json.success) {
-      showAlert('success', 'Opportunity updated successfully! Redirecting...');
-      setTimeout(() => window.location.href = `detail.html?id=${id}`, 1500);
-    } else {
-      showAlert('danger', json.message || 'Update failed.');
-    }
-  } catch (err) {
-    showAlert('danger', 'Could not connect to the server.');
+    sessionStorage.setItem('portal-notice', 'Opportunity updated successfully.');
+    window.location.href = `detail.html?id=${encodeURIComponent(id)}`;
+  } catch (error) {
+    showAlert('danger', `Could not update opportunity. ${error.message}`);
+    button.disabled = false;
   }
 });
-
-function showAlert(type, message) {
-  const box = document.getElementById('alert-box');
-  box.innerHTML = `<div class="alert alert-${type} alert-dismissible fade show" role="alert">
-    ${message}
-    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-  </div>`;
-}
 
 loadOpportunity();

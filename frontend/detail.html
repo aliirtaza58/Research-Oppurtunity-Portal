@@ -16,7 +16,7 @@
 
   <div class="container mt-4">
     <a href="index.html" class="btn btn-outline-secondary btn-sm mb-3">← Back to List</a>
-    <div id="alert-box"></div>
+    <div id="alert-box" aria-live="polite"></div>
     <div id="loading" class="text-center my-5">
       <div class="spinner-border text-primary" role="status"></div>
     </div>
@@ -27,6 +27,7 @@
           <span id="detail-status" class="badge fs-6"></span>
         </div>
         <div class="card-body">
+          <div class="mb-2"><strong>Opportunity ID:</strong> <span id="detail-id"></span></div>
           <div class="row mb-2">
             <div class="col-md-6"><strong>Faculty:</strong> <span id="detail-faculty"></span></div>
             <div class="col-md-6"><strong>Department:</strong> <span id="detail-department"></span></div>
@@ -50,6 +51,7 @@
     </div>
   </div>
 
+  <script src="js/common.js"></script>
   <script src="js/detail.js"></script>
 </body>
 </html>

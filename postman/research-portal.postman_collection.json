@@ -1,0 +1,386 @@
+{
+  "info": {
+    "name": "Research Opportunity Portal - Assignment 1",
+    "description": "Run requests 01-11 in order. Creates three MySQL-backed records, lists them, retrieves one, updates it, closes it, deletes the third record, and demonstrates 404 and 400 responses. IDs are captured automatically; no manual ID editing is needed. Two API Demo records remain for the video. Repeat runs create new demo records.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5000",
+      "type": "string"
+    },
+    {
+      "key": "opportunity_id",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "second_opportunity_id",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "deleted_id",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "01 Create AI opportunity",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/opportunities",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"API Demo: AI in Healthcare\",\n  \"description\": \"Research machine learning methods for medical data.\",\n  \"research_area\": \"Machine Learning\",\n  \"faculty_name\": \"Dr. Ahmed Khan\",\n  \"department\": \"Computer Science\",\n  \"required_skills\": \"Python, Data Analysis\",\n  \"available_positions\": 3,\n  \"application_deadline\": \"2030-12-31\",\n  \"status\": \"Open\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 201', function () { pm.response.to.have.status(201); });",
+              "const json = pm.response.json();",
+              "pm.test('success flag', function () { pm.expect(json.success).to.eql(true); });",
+              "if (pm.response.code === 201) pm.collectionVariables.set('opportunity_id', json.data.id);",
+              "pm.test('Generated unique ID', function () { pm.expect(json.data.id).to.be.a('number').and.above(0); });"
+            ]
+          }
+        }
+      ],
+      "response": []
+    },
+    {
+      "name": "02 Create wireless networks opportunity",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/opportunities",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"API Demo: Wireless Sensor Networks\",\n  \"description\": \"Study routing and energy efficiency in sensor networks.\",\n  \"research_area\": \"Computer Networks\",\n  \"faculty_name\": \"Dr. Sara Ali\",\n  \"department\": \"Computer Science\",\n  \"required_skills\": \"Networking, C++\",\n  \"available_positions\": 2,\n  \"application_deadline\": \"2030-12-31\",\n  \"status\": \"Open\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 201', function () { pm.response.to.have.status(201); });",
+              "const json = pm.response.json();",
+              "pm.test('success flag', function () { pm.expect(json.success).to.eql(true); });",
+              "if (pm.response.code === 201) pm.collectionVariables.set('second_opportunity_id', json.data.id);",
+              "pm.test('Generated unique ID', function () { pm.expect(json.data.id).to.be.a('number').and.above(0); });"
+            ]
+          }
+        }
+      ],
+      "response": []
+    },
+    {
+      "name": "03 Create computer vision opportunity",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/opportunities",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"API Demo: Computer Vision\",\n  \"description\": \"Build image recognition models for university research.\",\n  \"research_area\": \"Computer Vision\",\n  \"faculty_name\": \"Dr. Bilal Khan\",\n  \"department\": \"Computer Science\",\n  \"required_skills\": \"Python, OpenCV\",\n  \"available_positions\": 1,\n  \"application_deadline\": \"2030-12-31\",\n  \"status\": \"Open\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 201', function () { pm.response.to.have.status(201); });",
+              "const json = pm.response.json();",
+              "pm.test('success flag', function () { pm.expect(json.success).to.eql(true); });",
+              "if (pm.response.code === 201) pm.collectionVariables.set('deleted_id', json.data.id);",
+              "pm.test('Generated unique ID', function () { pm.expect(json.data.id).to.be.a('number').and.above(0); });"
+            ]
+          }
+        }
+      ],
+      "response": []
+    },
+    {
+      "name": "04 Retrieve all opportunities",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/opportunities"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200', function () { pm.response.to.have.status(200); });",
+              "const json = pm.response.json();",
+              "pm.test('success flag', function () { pm.expect(json.success).to.eql(true); });",
+              "pm.test('Contains all three newly created opportunities', function () {",
+              "  const ids = json.data.map(function (row) { return row.id; });",
+              "  ['opportunity_id', 'second_opportunity_id', 'deleted_id'].forEach(function (key) { pm.expect(ids).to.include(Number(pm.collectionVariables.get(key))); });",
+              "});"
+            ]
+          }
+        }
+      ],
+      "response": []
+    },
+    {
+      "name": "05 Retrieve one opportunity",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/opportunities/{{opportunity_id}}"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200', function () { pm.response.to.have.status(200); });",
+              "const json = pm.response.json();",
+              "pm.test('success flag', function () { pm.expect(json.success).to.eql(true); });",
+              "pm.test('Complete opportunity details', function () { pm.expect(json.data).to.have.all.keys('id', 'title', 'description', 'research_area', 'faculty_name', 'department', 'required_skills', 'available_positions', 'application_deadline', 'status', 'created_at'); });"
+            ]
+          }
+        }
+      ],
+      "response": []
+    },
+    {
+      "name": "06 Update an opportunity",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/opportunities/{{opportunity_id}}",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"API Demo: AI in Healthcare Updated\",\n  \"required_skills\": \"Python, TensorFlow, Data Analysis\",\n  \"available_positions\": 2\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200', function () { pm.response.to.have.status(200); });",
+              "const json = pm.response.json();",
+              "pm.test('success flag', function () { pm.expect(json.success).to.eql(true); });",
+              "pm.test('Updated fields persisted', function () { pm.expect(json.data.title).to.eql('API Demo: AI in Healthcare Updated'); pm.expect(json.data.available_positions).to.eql(2); });"
+            ]
+          }
+        }
+      ],
+      "response": []
+    },
+    {
+      "name": "07 Change Open to Closed",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/opportunities/{{opportunity_id}}",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"status\": \"Closed\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200', function () { pm.response.to.have.status(200); });",
+              "const json = pm.response.json();",
+              "pm.test('success flag', function () { pm.expect(json.success).to.eql(true); });",
+              "pm.test('Status is Closed and deadline is preserved', function () { pm.expect(json.data.status).to.eql('Closed'); pm.expect(json.data.application_deadline).to.eql('2030-12-31'); });"
+            ]
+          }
+        }
+      ],
+      "response": []
+    },
+    {
+      "name": "08 Delete the third opportunity",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": "{{baseUrl}}/api/opportunities/{{deleted_id}}"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200', function () { pm.response.to.have.status(200); });",
+              "const json = pm.response.json();",
+              "pm.test('success flag', function () { pm.expect(json.success).to.eql(true); });"
+            ]
+          }
+        }
+      ],
+      "response": []
+    },
+    {
+      "name": "09 Retrieve deleted opportunity - 404",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/opportunities/{{deleted_id}}"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 404', function () { pm.response.to.have.status(404); });",
+              "const json = pm.response.json();",
+              "pm.test('success flag', function () { pm.expect(json.success).to.eql(false); });",
+              "pm.test('Not found message', function () { pm.expect(json.message).to.include('not found'); });"
+            ]
+          }
+        }
+      ],
+      "response": []
+    },
+    {
+      "name": "10 Missing required data - 400",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/opportunities",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Incomplete opportunity\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 400', function () { pm.response.to.have.status(400); });",
+              "const json = pm.response.json();",
+              "pm.test('success flag', function () { pm.expect(json.success).to.eql(false); });",
+              "pm.test('Validation errors returned', function () { pm.expect(json.errors).to.be.an('array').that.is.not.empty; });"
+            ]
+          }
+        }
+      ],
+      "response": []
+    },
+    {
+      "name": "11 Invalid update - 400",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/opportunities/{{second_opportunity_id}}",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"status\": \"Pending\",\n  \"available_positions\": 0\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 400', function () { pm.response.to.have.status(400); });",
+              "const json = pm.response.json();",
+              "pm.test('success flag', function () { pm.expect(json.success).to.eql(false); });"
+            ]
+          }
+        }
+      ],
+      "response": []
+    }
+  ]
+}

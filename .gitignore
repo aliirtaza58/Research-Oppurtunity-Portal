@@ -1,0 +1,14 @@
+node_modules/
+.env
+.env.*
+!.env.example
+*.zip
+*.mp4
+*.mov
+*.mkv
+artifacts/
+.vscode/
+.postman/
+postman/*/
+.DS_Store
+Thumbs.db

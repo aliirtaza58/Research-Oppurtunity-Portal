@@ -5,6 +5,7 @@
 **Class:** 5B  
 **Course:** Computer Networks, Assignment 1  
 **GitHub repository:** https://github.com/aliirtaza58/Research-Oppurtunity-Portal
+**Demo Video** https://drive.google.com/file/d/1sotqQBVUdBqFZ41DSqxV7omy6-3q7Cis/view?usp=sharing
 
 Faculty can create, list, view, update, close, and delete research opportunities. Every operation uses the REST API and MySQL; the frontend contains no hard-coded opportunity records.
 

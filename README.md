@@ -78,7 +78,7 @@ POST requires `title`, `description`, `research_area`, `faculty_name`, `departme
 }
 ```
 
-## Required Postman demonstration
+## Postman demonstration
 
 Import `postman/research-portal.postman_collection.json`. Its `baseUrl` collection variable is `http://localhost:5000`; change it if you configured another port. Run requests **01-11 in order** with one iteration. The three POST requests automatically store their generated IDs for later requests.
 
@@ -112,26 +112,6 @@ With XAMPP MySQL running and `.env` configured:
 Set-Location backend
 npm test
 ```
-
-Tests use a generated `research_portal_test_...` database and remove that test database afterward. They do not clear the application database. The configured account needs CREATE/DROP DATABASE permissions for these isolated tests; XAMPP's local root account supports them. The suite checks real MySQL persistence, all CRUD routes, partial close updates, date preservation, 400 validation, deleted-record 404s, malformed JSON, and a JSON 500 on database failure. An expected `Pool is closed` log during the final test simulates a database failure and is not a failing test.
-
-See `docs/VERIFICATION.md` for the recorded checks and `docs/VIDEO_RECORDING_SCRIPT.md` for a 58-second recording plan.
-
-## Submission
-
-The source code, schema, collection, and this README belong in the ZIP. Add your **actual** video (maximum one minute) to `submission/demo.mp4`, or put its accessible URL in `submission/VIDEO_LINK.md` using the supplied template.
-
-From the project root, build the final ZIP after adding the video or link:
-
-```powershell
-powershell -ExecutionPolicy Bypass -File scripts/package-submission.ps1
-```
-
-The script refuses to package until a video file or a filled-in link is present. It excludes `.env`, `node_modules`, Git internals, and temporary verification artifacts. Output:
-
-`P24_0607_Ali_Irtaza_Abbas_Siddiqui_5B.zip`
-
-The filename follows the brief's `P24_0000_NAME_CLASS.zip` pattern. Verify the repository is accessible to the instructor and the video/link opens before submitting.
 
 ## Project structure
 
